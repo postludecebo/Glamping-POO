@@ -1,0 +1,237 @@
+:root {
+  --oliva-dorado: #736743;
+  --oro-palido: #BFB38F;
+  --beige-suave: #D9D1B8;
+  --gris-carbon: #262626;
+  --negro-profundo: #0D0D0D;
+}
+
+div h1{
+    padding: 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 2.4em;
+    display: flex;
+    justify-content: center;
+    
+    font-family: "Sigmar", sans-serif
+}
+
+header h1{
+    padding: 15px;
+    font-family: "Poppins", sans-serif;
+    font-size: 3.6em;
+    display: flex;
+    justify-content: center;
+
+    font-family: "Poppins", sans-serif;
+}
+
+
+body {
+    color: #F5F2E7; 
+    display:grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3 {
+  color:#F5F2E7; 
+}
+
+p {
+  color: #F5F2E7; 
+}
+
+.footer-text {
+  color: #9A9A9A; 
+}
+ul, ol {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+  justify-content: center;
+  font-size: 1.6em;
+
+}
+a:hover{
+      background-color: #F5F2E7;
+
+  transition: 0.3s ease;
+}
+a{
+    text-decoration: none;
+    color: #D6A756;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+button:hover {
+  background-color: #F5F2E7;
+
+  transition: 0.3s ease;
+}
+body {
+  background-color: var(--negro-profundo);
+  color: var(--beige-suave);
+}
+
+h1 {
+  color: var(--oro-palido);
+}
+
+button {
+  background-color: var(--oliva-dorado);
+  color: var(--negro-profundo);
+}
+
+.card {
+  background-color: var(--gris-carbon);
+  border: 1px solid var(--oliva-dorado);
+}
+
+/* From Uiverse.io by DavidTM96 */ 
+.form {
+
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  font-family: inherit;
+  gap: 10px;
+  padding-inline: 2em;
+  padding-bottom: 0.4em;
+  background-color: #171717;
+
+  border-radius: 20px;
+
+    padding: 2rem;
+border: 1px solid #736743;
+border-radius: 8px;
+color: #D9D1B8;
+}
+
+.form-heading {
+  text-align: center;
+  margin: 2em;
+  color: var(--beige-suave);
+  font-size: 2.3em;
+  background-color: transparent;
+  align-self: center;
+   font-family: "Raleway", sans-serif;
+}
+
+.form-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 10px;
+  padding: 0.6em;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #171717;
+  box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+   font-family: "Raleway", sans-serif;
+}
+
+.input-field {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #ccd6f6;
+  padding-inline: 1em;
+   font-family: "Raleway", sans-serif;
+}
+
+.sendMessage-btn {
+  cursor: pointer;
+  margin-bottom: 3em;
+  padding: 1em;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--beige-suave);
+  font-weight: bold;
+  outline: 1px solid var(--beige-suave);
+  transition: all ease-in-out 0.3s;
+   font-family: "Raleway", sans-serif;
+   justify-content: center;
+}
+
+.sendMessage-btn:hover {
+  transition: all ease-in-out 0.3s;
+  background-color: var(--beige-suave);
+  color: #000;
+  cursor: pointer;
+  box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+   font-family: "Raleway", sans-serif;
+}
+
+.form-card1 {
+  background-image: linear-gradient(163deg, var(--beige-suave) 0%, var(--beige-suave) 100%);
+  border-radius: 22px;
+  transition: all 0.3s;
+}
+
+.form-card1:hover {
+  box-shadow: 0px 0px 30px 1px rgba(226, 168, 7, 0.3);
+}
+
+.form-card2 {
+  border-radius: 0;
+  transition: all 0.2s;
+}
+
+.form-card2:hover {
+  transform: scale(0.98);
+  border-radius: 20px;
+}
+
+.form-main{
+    justify-content: center;
+    
+}
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.table-registers {
+  background-color: var(--gris-carbon);
+  border: 2px solid var(--oliva-dorado);
+  color: var(--beige-suave);
+  border-radius: 10px;
+  font-family: "Raleway", sans-serif;
+}
+
+.table-registers th {
+  background-color: var(--oliva-dorado);
+  color: var(--beige-suave);
+  text-align: center;
+  padding: 10px;
+}
+
+.table-registers td {
+  background-color: var(--beige-suave);
+  color: var(--gris-carbon);
+  border-top: 1px solid var(--beige-suave);
+  padding: 10px;
+}
+
+.table-registers tr:hover {
+  background-color: rgba(191, 179, 143, 0.1);
+  transition: 0.3s ease;
+}

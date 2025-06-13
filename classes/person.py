@@ -45,5 +45,8 @@ class Person:
     
     def show_info(self):
         return f"INFORMATION \n Name: {self.name} \n Phone: {self.phone} \n Email: {self.email} \n Identification: {self.identification}"
+    
+    def confirmCreation(self):
+        return f"Correctly created {self.name} object person"
                 
 
