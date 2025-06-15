@@ -29,60 +29,75 @@
   </ul>
 </nav>
 <br>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert-polaris" role="alert">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+<br>
 <div class="main-form">
-    
+
+
+
     <div class="form-card1">
   <div class="form-card2">
-    <form class="form" action="/processPerson" method="post">
-      <p class="form-heading"> Register Person </p>
+    <form class="form" action="/processGuest" method="post">
+      <p class="form-heading"> Register Guest <br> (needs to register a person before)</p>
+     
+      <div class="form-field">
+        <select name="person_id" id="person_id" required>
+        <option value="" disabled selected> Select Guest </option>
+          {% for person in personArray %}
+            {% set already_guest = false %}
+            {% for guest in guestArray %}
+              {% if guest.identification == person.identification %}
+                {% set already_guest = true %}
+              {% endif %}
+            {% endfor %}
+            {% if not already_guest %}
+              <option value="{{ person.identification }}">{{ person.name }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
 
       <div class="form-field">
         <input required 
-        name="name"
-        placeholder="Name" 
+        name="birthDate"
+        placeholder="Birth Date" 
         class="input-field" 
-        type="text"/>
+        type="date"/>
       </div>
 
       <div class="form-field">
         <input
           required
-          name="phone"
-          placeholder="Phone"
+          name="originCountry"
+          placeholder="Origin Country"
           class="input-field"
-          type="number"
+          type="text"
         />
       </div>
 
       <div class="form-field">
         <input
           required
-          name="email"
-          placeholder="Email"
+          name="foodPreferences"
+          placeholder="Food Preferences"
           class="input-field"
-          type="email"
+          type="text"
         />
       </div>
 
-      <div class="form-field">
-        <input 
-          required
-          name="identification"
-          placeholder="Identification"
-          class="input-field"
-          type="number"
-        >
 
-          
-
-      </div>
 <br>
-      <button class="sendMessage-btn" type="submit" value="send"> Create Person </button>
+      <button class="sendMessage-btn" type="submit" value="send"> Register Guest </button>
   
-  <button onclick="location.href='/registersPersons'" class="sendMessage-btn">
+  <button onclick="location.href='/registersGuest'" class="sendMessage-btn">
   List registers
 </button>
-
 
     </form>
   </div>

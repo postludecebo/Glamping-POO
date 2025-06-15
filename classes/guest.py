@@ -1,12 +1,16 @@
-import datetime
+from datetime import datetime
 from classes.person import Person
 
 class Guest(Person):
-    def __init__(self, name, phone, email, identification, birthDate, originCountry, foodPreferences):
-        super().__init__(name, phone, email, identification)
-        self.__birthDate = birthDate
-        self.__originCountry = originCountry
-        self.__foodPreferences = foodPreferences
+    def __init__(self, person, birthDate, originCountry, foodPreferences):
+        super().__init__(person.name, person.phone, person.email, person.identification)
+        self.__birthDate = None
+        self.__originCountry = None
+        self.__foodPreferences = None
+
+        self.birthDate = birthDate
+        self.originCountry = originCountry
+        self.foodPreferences = foodPreferences
 
     @property
     def birthDate(self):
@@ -14,7 +18,10 @@ class Guest(Person):
     
     @birthDate.setter
     def birthDate(self, newBirthDate):
-        self.__birthDate = newBirthDate
+        try:
+            self.__birthDate = datetime.strptime(newBirthDate, "%Y-%m-%d").date()
+        except ValueError:
+            raise ValueError("Birth Date must be in YYYY-MM-DD format.")
 
     @property
     def originCountry(self):
@@ -22,6 +29,8 @@ class Guest(Person):
     
     @originCountry.setter
     def originCountry(self, newOriginCountry):
+        if not newOriginCountry:
+            raise ValueError("Origin country cannot be empty.")
         self.__originCountry = newOriginCountry
     
     @property
@@ -30,17 +39,19 @@ class Guest(Person):
     
     @foodPreferences.setter
     def foodPreferences(self, newFoodPreferences):
-        self.__foodPreferences = newFoodPreferences
-    
-    def estimate_age(self):
-        birthDate = datetime.strptime(self.birthDate, "%Y-%m-%d").date()
-        today = datetime.today().date()
-        age = today.year - birthDate.year 
+        self.__foodPreferences = newFoodPreferences if newFoodPreferences else "None"
 
-        if (today.month, today.day) < (birthDate.month, birthDate.day):
+    def estimate_age(self):
+        today = datetime.today().date()
+        age = today.year - self.birthDate.year 
+        if (today.month, today.day) < (self.birthDate.month, self.birthDate.day):
             age -= 1
-        return f"Age is: {age}"
+        return f"The age of {self.name} is: {age}"
 
     def show_info(self):
-        return f"{super().showInfo()} \n Birth Date: {self.birthDate} \n Origin Country: {self.originCountry} \n Food Preferences: {self.foodPreferences}"
-
+        return (
+            f"{super().showInfo()}\n"
+            f"Birth Date: {self.birthDate}\n"
+            f"Origin Country: {self.originCountry}\n"
+            f"Food Preferences: {self.foodPreferences}"
+        )

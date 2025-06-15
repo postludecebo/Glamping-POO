@@ -12,40 +12,33 @@
   <title>Registers</title>
 </head>
 <body class="container my-5">
-  <h1 class="mb-4 text-center">Registered guests 📝</h1>
+  <h1 class="mb-4 text-center">Registered Additional Services 📝</h1>
 
-
-<div class="table-responsive">
-  <table class="table table-hover table-bordered table-registers">
-    <thead class="table-dark">
-      <tr>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>ID</th>
-        <th>Birth Date</th>
-        <th>Origin Country</th>
-        <th>Food Preferences</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for guest in guests %}
-      <tr>
-        <td>{{ guest.name }}</td>
-        <td>{{ guest.phone }}</td>
-        <td>{{ guest.email }}</td>
-        <td>{{ guest.identification }}</td>
-        <td>{{ guest.birthDate }}</td>
-        <td>{{ guest.originCountry }}</td>
-        <td>{{ guest.foodPreferences }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered table-registers">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Duration (Hours)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in additionalServices %}
+        <tr>
+          <td>{{ service.name }}</td>
+          <td>{{ service.description }}</td>
+          <td>{{ service.price }}</td>
+          <td>{{ service.duration }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
   <div class="text-center mt-4">
-    <a href="/create-guest" class="sendMessage-btn"> Back to form</a>
+    <a href="/create-person" class="sendMessage-btn"> Back to form</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

@@ -9,12 +9,16 @@ from classes.reservation import Reservation
 
 
 app = Flask(__name__)
+# Debug mode
+if __name__ == "__main__":
+    app.run(debug=True)
 app.secret_key = 'polaris1113'
 
 personArray = []
 employeeArray = []
 guestArray = []
-
+additionalServiceArray = []
+hostingArray = []
 
 # Init
 @app.route("/")
@@ -37,7 +41,7 @@ def processPerson():
     return redirect("/create-person")
 
 @app.route("/processEmployee", methods=["POST"])
-def process_employee():
+def processEmployee():
     person_id = request.form.get("person_id")
     position = request.form.get("position")
     wage = request.form.get("wage")
@@ -63,6 +67,87 @@ def process_employee():
     except ValueError as error:
         return f"Error registering employee: {error}", 400
 
+@app.route("/processGuest", methods=["POST"])
+def processGuest():
+    person_id = request.form.get("person_id")
+    birthDate = request.form.get("birthDate")
+    originCountry = request.form.get("originCountry")
+    foodPreferences = request.form.get("foodPreferences")
+
+    person = next((p for p in personArray if p.identification == person_id), None)
+
+    if not person:
+        return "Person not found", 404
+
+    try:
+        newGuest = Guest(
+            person=person,
+            birthDate=birthDate,
+            originCountry=originCountry, 
+            foodPreferences=foodPreferences
+        )
+        guestArray.append(newGuest)
+        flash("✅ Guest registered successfully!")
+
+        return redirect("/create-guest")
+
+    except ValueError as error:
+        return f"Error registering guest: {error}", 400
+
+@app.route("/processAdditionalService", methods=["POST"])
+def processAdditionalService():
+    name = request.form.get("name")
+    description = request.form.get("description")
+    price = request.form.get("price")
+    duration = request.form.get("duration")
+
+    service = next((p for p in additionalServiceArray if p.name == name), None)
+
+    if service:
+        return "Service already registered."
+    
+    try:
+        newService = AdditionalService(
+            name=name,
+            description=description,
+            price=price,
+            duration=duration
+        )
+        additionalServiceArray.append(newService)
+        flash("✅ Additional Service registered successfully!")
+
+        return redirect("/create-additional-service")
+
+    except ValueError as error:
+        return f"Error registering additional service: {error}", 400   
+
+@app.route("/processHosting", methods=["POST"])
+def process_hosting():
+    phone = request.form.get("phone")
+    type = request.form.get("type")
+    maxCapacity = request.form.get("maxCapacity")
+    baseNightPrice = request.form.get("baseNightPrice")
+    amenities = request.form.getlist("amenities")  
+    disponibility = request.form.get("disponibility")
+    season = request.form.get("season")
+
+    try:
+        hosting = Hosting(
+            phone=phone,
+            type=type,
+            maxCapacity=int(maxCapacity),
+            baseNightPrice=float(baseNightPrice),
+            amenities=amenities,
+            disponibility=(disponibility.lower() == "true"), 
+            season=season
+        )
+        hostingArray.append(hosting)
+        flash("✅ Hosting registered successfully!")
+        return redirect("/create-hosting")
+
+    except ValueError as e:
+        flash(f"🚫 Error registering hosting: {e}")
+        return redirect("/create-hosting")
 
 # List registers calls
 
@@ -75,10 +160,21 @@ def showPersonRegisters():
 def showEmployeeRegisters():
     return render_template("listEmployee.html", employees=employeeArray)
 
+@app.route("/registersGuest")
+def showGuestRegisters():
+    return render_template("listGuest.html", guests=guestArray)
+
+@app.route("/registersAdditionalService")
+def showAdditionalServices():
+    return render_template("listAdditionalService.html", additionalServices=additionalServiceArray)
+
+@app.route("/registersHosting")
+def showHostings():
+    return render_template("listHosting.html", hostings=hostingArray)
 # Nav calls
 @app.route('/create-additional-service')
 def create_additional_service():
-    return render_template('createAdditionalService.html')
+    return render_template('createAdditionalService.html', additionalServices=additionalServiceArray)
 
 @app.route('/create-employee')
 def create_employee():
@@ -86,11 +182,11 @@ def create_employee():
 
 @app.route('/create-guest')
 def create_guest():
-    return render_template('createGuest.html')
+    return render_template('createGuest.html', personArray=personArray, guests=guestArray)
 
 @app.route('/create-hosting')
 def create_hosting():
-    return render_template('createHosting.html')
+    return render_template('createHosting.html', hostings=hostingArray)
 
 @app.route('/create-person')
 def create_person():
@@ -104,6 +200,3 @@ def create_reservation():
 def create_glamping():
     return render_template('createGlamping.html')
 
-# Debug mode
-if __name__ == "__main__":
-    app.run(debug=True)
