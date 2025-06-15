@@ -13,6 +13,8 @@
 
 </head>
 <body>
+
+
     <header> <h1>Polaris Camp </h1> </header>
 <nav class="main-nav">
   <ul>
@@ -26,14 +28,60 @@
     <li><a href="/create-glamping"> Glamping </a></li>
   </ul>
 </nav>
-
+<br>
+<div class="main-form">
     
-    <div><h1>Welcome to the Glamping User (Admin) Interface</h1> </div>
+    <div class="form-card1">
+  <div class="form-card2">
+    <form class="form" action="/processPerson" method="post">
+      <p class="form-heading"> Register Person </p>
 
+      <div class="form-field">
+        <input required 
+        name="name"
+        placeholder="Name" 
+        class="input-field" 
+        type="text"/>
+      </div>
 
+      <div class="form-field">
+        <input
+          required
+          name="phone"
+          placeholder="Phone"
+          class="input-field"
+          type="number"
+        />
+      </div>
 
+      <div class="form-field">
+        <input
+          required
+          name="email"
+          placeholder="Email"
+          class="input-field"
+          type="email"
+        />
+      </div>
 
+      <div class="form-field">
+        <input 
+          required
+          name="identification"
+          placeholder="Identification"
+          class="input-field"
+          type="number"
+        >
+
+          
+
+      </div>
+<br>
+      <button class="sendMessage-btn" type="submit" value="send"> Create Person </button>
   
+  <button onclick="location.href='/registersPersons'" class="sendMessage-btn">
+  List registers
+</button>
 
 
     </form>

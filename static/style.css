@@ -5,6 +5,28 @@
   --gris-carbon: #262626;
   --negro-profundo: #0D0D0D;
 }
+.main-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color:var(--beige-suave);
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.main-nav a:hover {
+  background-color: #dbc1ac;
+}
 
 div h1{
     padding: 10px;
@@ -17,13 +39,13 @@ div h1{
 }
 
 header h1{
-    padding: 15px;
+
     font-family: "Poppins", sans-serif;
     font-size: 3.6em;
     display: flex;
     justify-content: center;
 
-    font-family: "Poppins", sans-serif;
+
 }
 
 
@@ -56,18 +78,9 @@ ul, ol {
   font-size: 1.6em;
 
 }
-a:hover{
-      background-color: #F5F2E7;
 
-  transition: 0.3s ease;
-}
-a{
-    text-decoration: none;
-    color: #D6A756;
-    padding: 20px;
-    border-radius: 10px;
 
-}
+
 button:hover {
   background-color: #F5F2E7;
 
@@ -103,13 +116,14 @@ button {
   padding-inline: 2em;
   padding-bottom: 0.4em;
   background-color: #171717;
-
   border-radius: 20px;
-
-    padding: 2rem;
-border: 1px solid #736743;
-border-radius: 8px;
-color: #D9D1B8;
+  padding: 2rem;
+  border: 1px solid #736743;
+  border-radius: 20px;
+  color: #D9D1B8;
+  width: 100%;
+  height: 94%;
+  margin: 0 auto;
 }
 
 .form-heading {
@@ -119,7 +133,10 @@ color: #D9D1B8;
   font-size: 2.3em;
   background-color: transparent;
   align-self: center;
-   font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
+  width: 60%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form-field {
@@ -134,7 +151,7 @@ color: #D9D1B8;
   color: white;
   background-color: #171717;
   box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
-   font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .input-field {
@@ -176,10 +193,16 @@ color: #D9D1B8;
   background-image: linear-gradient(163deg, var(--beige-suave) 0%, var(--beige-suave) 100%);
   border-radius: 22px;
   transition: all 0.3s;
+  width: 60%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form-card1:hover {
   box-shadow: 0px 0px 30px 1px rgba(226, 168, 7, 0.3);
+  width: 60%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form-card2 {
