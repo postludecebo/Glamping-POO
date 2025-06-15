@@ -29,57 +29,92 @@
   </ul>
 </nav>
 <br>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert-polaris" role="alert">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+<br>
 <div class="main-form">
     
     <div class="form-card1">
   <div class="form-card2">
-    <form class="form" action="/processPerson" method="post">
-      <p class="form-heading"> Register Person </p>
+    <form class="form" action="/processReservation" method="post">
+      <p class="form-heading"> Register Reservation </p>
 
       <div class="form-field">
-        <input required 
-        name="name"
-        placeholder="Name" 
-        class="input-field" 
-        type="text"/>
+        <div class="col-md-6">
+          <label>Guest</label>
+          <select name="guestID" class="form-select" required>
+            {% for guest in guests %}
+              <option value="{{ guest.identification }}">{{ guest.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
       </div>
 
       <div class="form-field">
+        <div class="col-md-6">
+          <label>Hosting</label>
+          <select name="hostingPhone" class="form-select" required>
+            {% for hosting in hostings %}
+              <option value="{{ hosting.phone }}">{{ hosting.phone }} - {{ hosting.type }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="">Check-in</label>
         <input
           required
-          name="phone"
-          placeholder="Phone"
+          name="dateCheckIn"
+          placeholder="Check-in"
           class="input-field"
-          type="number"
+          type="date"
         />
       </div>
 
       <div class="form-field">
+      <label for="">Check-out</label>
         <input
           required
-          name="email"
-          placeholder="Email"
+          name="dateCheckOut"
+          placeholder="Check-out"
           class="input-field"
-          type="email"
+          type="date"
         />
       </div>
 
       <div class="form-field">
-        <input 
-          required
-          name="identification"
-          placeholder="Identification"
-          class="input-field"
-          type="number"
-        >
+        <div class="col-md-12">
+            <label>Additional Services</label><br>
+            {% for service in additionalServices %}
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="services" value="{{ service.name }}">
+              <label class="form-check-label">{{ service.name }}</label>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
 
-          
-
+      <div class="form-field">
+          <div class="col-md-6">
+            <label>State</label>
+            <select name="state" class="form-select" required>
+              <option value="confirmed">Confirmed</option>
+              <option value="in progress">In Progress</option>
+              <option value="finished">Finished</option>
+              <option value="canceled">Canceled</option>
+            </select>
+          </div>
       </div>
 <br>
-      <button class="sendMessage-btn" type="submit" value="send"> Create Person </button>
+      <button class="sendMessage-btn" type="submit" value="send"> Register Reservation </button>
   
-  <button onclick="location.href='/registersPersons'" class="sendMessage-btn">
+  <button onclick="location.href='/registersReservation'" class="sendMessage-btn">
   List registers
 </button>
 

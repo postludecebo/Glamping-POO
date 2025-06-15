@@ -1,7 +1,8 @@
-import datetime
-from classes import guest
-from classes import hosting
-from classes import additionalservice
+from datetime import datetime
+from classes.guest import Guest
+from classes.hosting import Hosting
+from classes.additionalservice import AdditionalService
+
 class Reservation:
     VALID_STATES = {"confirmed", "in progress", "finished", "canceled"}
     def __init__(self, idReservation, guest, hosting, dateCheckIn, dateCheckOut, additionalServices, totalPrice, state):
@@ -28,7 +29,7 @@ class Reservation:
     
     @guest.setter
     def guest(self, new_guest):
-        if isinstance(new_guest, guest):
+        if isinstance(new_guest, Guest):
             self.__guest = new_guest
         else:
             raise ValueError(f"{new_guest} needs to be an object from 'Guest' Class.")
@@ -39,7 +40,7 @@ class Reservation:
     
     @hosting.setter
     def hosting(self, new_hosting):
-        if isinstance(new_hosting, hosting):
+        if isinstance(new_hosting, Hosting):
             self.__hosting = new_hosting
         else:
             raise ValueError(f"{new_hosting} needs to be an object from 'Hosting' Class.")
@@ -92,7 +93,7 @@ class Reservation:
         
     
     def addService(self, service):
-        if isinstance(service, additionalservice):
+        if isinstance(service, AdditionalService):
             self.__additionalServices.append(service)
         else:
             raise ValueError(f"The added service ({service}) is not an available Additional Service")

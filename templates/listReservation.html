@@ -12,59 +12,51 @@
   <title>Registers</title>
 </head>
 <body class="container my-5">
-  <h1 class="mb-4 text-center">Registered hosting 📝</h1>
-
+<h2 class="mb-4 text-center">Registered Reservations 📅</h2>
 <div class="table-responsive">
   <table class="table table-hover table-bordered table-registers">
     <thead class="table-dark">
       <tr>
-        <th>Phone</th>
-        <th>Type</th>
-        <th>Max Capacity</th>
-        <th>Base Night Price</th>
-        <th>Season</th>
-        <th>Season Price</th>
-        <th>Amenities</th>
-        <th>Disponibility</th>
+        <th>Code</th>
+        <th>Guest</th>
+        <th>Hosting</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Nights</th>
+        <th>Services</th>
+        <th>Total</th>
+        <th>State</th>
       </tr>
     </thead>
     <tbody>
-      {% for hosting in hostings %}
+      {% for res in reservations %}
       <tr>
-        <td>{{ hosting.phone }}</td>
-        <td>{{ hosting.type }}</td>
-        <td>{{ hosting.maxCapacity }}</td>
+        <td>{{ res.idReservation }}</td>
+        <td>{{ res.guest.name }}</td>
+        <td>{{ res.hosting.type }} - {{ res.hosting.phone }}</td>
+        <td>{{ res.dateCheckIn }}</td>
+        <td>{{ res.dateCheckOut }}</td>
+        <td>{{ res.estimateNights() }}</td>
         <td>
-        ${{ "{:,.2f}".format(hosting.baseNightPrice|float).replace(",", "X").replace(".", ",").replace("X", ".") }}
-        </td>
-        <td>{{ hosting.season|capitalize }}</td>
-        <td>
-         ${{ "{:,.2f}".format(hosting.SeasonPrice()|float).replace(",", "X").replace(".", ",").replace("X", ".") }}
-        </td>
-        <td>
-          {% if hosting.amenities %}
-            {{ hosting.amenities | join(', ') }}
+          {% if res.additionalServices %}
+            {{ res.additionalServices | map(attribute='name') | join(', ') }}
           {% else %}
             <em>None</em>
           {% endif %}
         </td>
         <td>
-          {% if hosting.disponibility %}
-            <span class="text-success">Available</span>
-          {% else %}
-            <span class="text-danger">Booked</span>
-          {% endif %}
+          ${{ "{:,.2f}".format(res.totalPrice|float).replace(",", "X").replace(".", ",").replace("X", ".") }}
         </td>
+        <td>{{ res.state|capitalize }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
 
-<div class="text-center mt-4">
-  <a href="/create-hosting" class="sendMessage-btn">Back to form</a>
-</div>
-
+  <div class="text-center mt-4">
+    <a href="/create-reservation" class="sendMessage-btn"> Back to form</a>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>

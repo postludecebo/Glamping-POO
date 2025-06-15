@@ -19,6 +19,8 @@ employeeArray = []
 guestArray = []
 additionalServiceArray = []
 hostingArray = []
+reservationArray = []
+glampingArray = []
 
 # Init
 @app.route("/")
@@ -138,7 +140,7 @@ def process_hosting():
             maxCapacity=int(maxCapacity),
             baseNightPrice=float(baseNightPrice),
             amenities=amenities,
-            disponibility=(disponibility.lower() == "true"), 
+            disponibility=(disponibility == "true"), 
             season=season
         )
         hostingArray.append(hosting)
@@ -149,12 +151,72 @@ def process_hosting():
         flash(f"🚫 Error registering hosting: {e}")
         return redirect("/create-hosting")
 
-# List registers calls
+@app.route("/processReservation", methods=["POST"])
+def processReservation():
+    idReservation = request.form.get("idReservation")
+    guest_id = request.form.get("guestID")
+    hosting_phone = request.form.get("hostingPhone")
+    checkIn = request.form.get("dateCheckIn")
+    checkOut = request.form.get("dateCheckOut")
+    selected_services = request.form.getlist("services")
+    state = request.form.get("state")
+
+    guest_obj = next((g for g in guestArray if g.identification == guest_id), None)
+    hosting_obj = next((h for h in hostingArray if h.phone == hosting_phone), None)
+    services_obj = [s for s in additionalServiceArray if s.name in selected_services]
+
+
+    if not checkIn or not checkOut:
+        flash("🚫 Both check-in and check-out dates are required.")
+        return redirect("/create-reservation")
+    if not guest_obj or not hosting_obj:
+        flash("🚫 Guest or Hosting not found.")
+        return redirect("/create-reservation")
+    
+    try:
+        newReservation = Reservation(
+            idReservation=idReservation,
+            guest=guest_obj,
+            hosting=hosting_obj,
+            dateCheckIn=checkIn,
+            dateCheckOut=checkOut,
+            additionalServices=services_obj,
+            totalPrice=0,
+            state=state
+        )
+        newReservation.estimateTotalPrice()
+        reservationArray.append(newReservation)
+        flash("✅ Reservation registered successfully!")
+        return redirect("/create-reservation")
+
+    except ValueError as e:
+        flash(f"🚫 Error registering reservation: {e}")
+        return redirect("/create-reservation")
+
+@app.route("/processGlamping", methods=["POST"])
+def processGlamping():
+    name = request.form.get("name")
+    location = request.form.get("location")
+
+    if not name or not location:
+        flash("🚫 All fields are required.")
+        return redirect("/create-glamping")
+
+    try:
+        glamp = Glamping(name=name, location=location)
+        glampingArray.append(glamp)
+        flash("✅ Glamping registered successfully!")
+        return redirect("/create-glamping")
+    
+    except ValueError as error:
+        flash(f"🚫 {error}")
+        return redirect("/create-glamping")
+
+# List registers calls (Estos comments los hice yo Mauro, por si algo 😑)
 
 @app.route("/registersPerson")
 def showPersonRegisters():
     return render_template("listPerson.html", persons=personArray)
-
 
 @app.route("/registersEmployee")
 def showEmployeeRegisters():
@@ -171,6 +233,15 @@ def showAdditionalServices():
 @app.route("/registersHosting")
 def showHostings():
     return render_template("listHosting.html", hostings=hostingArray)
+
+@app.route("/registersReservation")
+def showReservations():
+    return render_template("listReservation.html", reservations=reservationArray)
+
+@app.route("/registersGlamping")
+def showGlampings():
+    return render_template("listGlamping.html", glampings=glampingArray)
+
 # Nav calls
 @app.route('/create-additional-service')
 def create_additional_service():
@@ -194,9 +265,9 @@ def create_person():
 
 @app.route('/create-reservation')
 def create_reservation():
-    return render_template('createReservation.html')
+    return render_template('createReservation.html', reservations=reservationArray, guests=guestArray, hostings=hostingArray, additionalServices=additionalServiceArray)
 
 @app.route('/create-glamping')
 def create_glamping():
-    return render_template('createGlamping.html')
+    return render_template('createGlamping.html', )
 

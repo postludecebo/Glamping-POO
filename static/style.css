@@ -163,8 +163,12 @@ button {
   padding-inline: 1em;
    font-family: "Raleway", sans-serif;
 }
+.a-btn{
+  justify-content: center;
+  text-decoration: none;
 
-.sendMessage-btn {
+}
+.sendMessage-btn  {
   cursor: pointer;
   margin-bottom: 3em;
   padding: 1em;
