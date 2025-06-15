@@ -7,6 +7,11 @@ from classes.hosting import Hosting
 from classes.person import Person
 from classes.reservation import Reservation
 
+personArray = []
+
+
+
+polaris = Glamping("Polaris Camp", "Colombia")
 
 app = Flask(__name__)
 # Debug mode
@@ -14,13 +19,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 app.secret_key = 'polaris1113'
 
-personArray = []
-employeeArray = []
-guestArray = []
-additionalServiceArray = []
-hostingArray = []
-reservationArray = []
-glampingArray = []
+
 
 # Init
 @app.route("/")
@@ -61,7 +60,8 @@ def processEmployee():
             wage=int(wage), 
             entryDate=entryDate
         )
-        employeeArray.append(newEmployee)
+        
+        polaris.hireEmployees(newEmployee)
         flash("✅ Employee registered successfully!")
 
         return redirect("/create-employee")
@@ -88,8 +88,10 @@ def processGuest():
             originCountry=originCountry, 
             foodPreferences=foodPreferences
         )
-        guestArray.append(newGuest)
+        
+        polaris.registerGuests(newGuest)
         flash("✅ Guest registered successfully!")
+        
 
         return redirect("/create-guest")
 
@@ -103,7 +105,7 @@ def processAdditionalService():
     price = request.form.get("price")
     duration = request.form.get("duration")
 
-    service = next((p for p in additionalServiceArray if p.name == name), None)
+    service = next((p for p in polaris.additionalServices if p.name == name), None)
 
     if service:
         return "Service already registered."
@@ -115,7 +117,9 @@ def processAdditionalService():
             price=price,
             duration=duration
         )
-        additionalServiceArray.append(newService)
+        
+        polaris.additionalServices = newService
+
         flash("✅ Additional Service registered successfully!")
 
         return redirect("/create-additional-service")
@@ -143,7 +147,7 @@ def process_hosting():
             disponibility=(disponibility == "true"), 
             season=season
         )
-        hostingArray.append(hosting)
+        polaris.addHostings(hosting)
         flash("✅ Hosting registered successfully!")
         return redirect("/create-hosting")
 
@@ -161,9 +165,9 @@ def processReservation():
     selected_services = request.form.getlist("services")
     state = request.form.get("state")
 
-    guest_obj = next((g for g in guestArray if g.identification == guest_id), None)
-    hosting_obj = next((h for h in hostingArray if h.phone == hosting_phone), None)
-    services_obj = [s for s in additionalServiceArray if s.name in selected_services]
+    guest_obj = next((g for g in polaris.guests if g.identification == guest_id), None)
+    hosting_obj = next((h for h in polaris.hostings if h.phone == hosting_phone), None)
+    services_obj = [s for s in polaris.additionalServices if s.name in selected_services]
 
 
     if not checkIn or not checkOut:
@@ -185,7 +189,10 @@ def processReservation():
             state=state
         )
         newReservation.estimateTotalPrice()
-        reservationArray.append(newReservation)
+        
+        polaris.registerReservation(newReservation)
+
+
         flash("✅ Reservation registered successfully!")
         return redirect("/create-reservation")
 
@@ -193,24 +200,7 @@ def processReservation():
         flash(f"🚫 Error registering reservation: {e}")
         return redirect("/create-reservation")
 
-@app.route("/processGlamping", methods=["POST"])
-def processGlamping():
-    name = request.form.get("name")
-    location = request.form.get("location")
 
-    if not name or not location:
-        flash("🚫 All fields are required.")
-        return redirect("/create-glamping")
-
-    try:
-        glamp = Glamping(name=name, location=location)
-        glampingArray.append(glamp)
-        flash("✅ Glamping registered successfully!")
-        return redirect("/create-glamping")
-    
-    except ValueError as error:
-        flash(f"🚫 {error}")
-        return redirect("/create-glamping")
 
 # List registers calls (Estos comments los hice yo Mauro, por si algo 😑)
 
@@ -220,44 +210,44 @@ def showPersonRegisters():
 
 @app.route("/registersEmployee")
 def showEmployeeRegisters():
-    return render_template("listEmployee.html", employees=employeeArray)
+    return render_template("listEmployee.html", employees=polaris.employees)
 
 @app.route("/registersGuest")
 def showGuestRegisters():
-    return render_template("listGuest.html", guests=guestArray)
+    return render_template("listGuest.html", guests=polaris.guests)
 
 @app.route("/registersAdditionalService")
 def showAdditionalServices():
-    return render_template("listAdditionalService.html", additionalServices=additionalServiceArray)
+    return render_template("listAdditionalService.html", additionalServices=polaris.additionalServices)
 
 @app.route("/registersHosting")
 def showHostings():
-    return render_template("listHosting.html", hostings=hostingArray)
+    return render_template("listHosting.html", hostings=polaris.hostings)
 
 @app.route("/registersReservation")
 def showReservations():
-    return render_template("listReservation.html", reservations=reservationArray)
+    return render_template("listReservation.html", reservations=polaris.reservations)
 
 @app.route("/registersGlamping")
 def showGlampings():
-    return render_template("listGlamping.html", glampings=glampingArray)
+    return render_template("listGlamping.html", glampings=[polaris])
 
 # Nav calls
 @app.route('/create-additional-service')
 def create_additional_service():
-    return render_template('createAdditionalService.html', additionalServices=additionalServiceArray)
+    return render_template('createAdditionalService.html', additionalServices=polaris.additionalServices)
 
 @app.route('/create-employee')
 def create_employee():
-    return render_template('createEmployee.html', personArray=personArray, employeeArray = employeeArray)
+    return render_template('createEmployee.html', personArray=personArray, employeeArray = polaris.employees)
 
 @app.route('/create-guest')
 def create_guest():
-    return render_template('createGuest.html', personArray=personArray, guests=guestArray)
+    return render_template('createGuest.html', personArray=personArray, guests=polaris.guests)
 
 @app.route('/create-hosting')
 def create_hosting():
-    return render_template('createHosting.html', hostings=hostingArray)
+    return render_template('createHosting.html', hostings=polaris.hostings)
 
 @app.route('/create-person')
 def create_person():
@@ -265,7 +255,7 @@ def create_person():
 
 @app.route('/create-reservation')
 def create_reservation():
-    return render_template('createReservation.html', reservations=reservationArray, guests=guestArray, hostings=hostingArray, additionalServices=additionalServiceArray)
+    return render_template('createReservation.html', reservations=polaris.reservations, guests=polaris.guests, hostings=polaris.hostings, additionalServices=polaris.additionalServices)
 
 @app.route('/create-glamping')
 def create_glamping():

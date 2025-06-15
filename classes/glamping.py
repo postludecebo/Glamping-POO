@@ -1,8 +1,8 @@
-from classes import reservation
-from classes import employee
-from classes import hosting
-from classes import guest
-from classes import additionalservice
+from classes.reservation import Reservation
+from classes.employee import Employee
+from classes.hosting import Hosting
+from classes.guest import Guest
+from classes.additionalservice import AdditionalService
 
 class Glamping:
     def __init__(self, name, location):
@@ -58,8 +58,8 @@ class Glamping:
         return self.__additionalServices[:]
     
     @additionalServices.setter
-    def additionalService(self, newAdditionalService):
-        if isinstance(newAdditionalService, additionalservice):
+    def additionalServices(self, newAdditionalService):
+        if isinstance(newAdditionalService, AdditionalService):
             self.__additionalServices.append(newAdditionalService)
         else:
             raise ValueError(f"The additional service {newAdditionalService} is not a valid additional service, must be a AdditionalService Class Object.")
@@ -68,32 +68,28 @@ class Glamping:
 
 
     def addHostings(self, newHosting):
-        if isinstance(newHosting, hosting):
+        if isinstance(newHosting, Hosting):
             self.__hostings.append(newHosting)
         else:
             raise ValueError(f"The hosting {newHosting} is not a valid hosting, must be a Hosting Class Object.")
     
     def registerGuests(self, newGuest):
-        if isinstance(newGuest, guest):
+        if isinstance(newGuest, Guest):
             self.__guests.append(newGuest)
         else:
             raise ValueError(f"The guest {newGuest} is not a valid guest, must be a Guest Class Object.")
         
     def hireEmployees(self, newEmployee):
-        if isinstance(newEmployee, employee):
+        if isinstance(newEmployee, Employee):
             self.__employees.append(newEmployee)
         else:
             raise ValueError(f"The employeee {newEmployee} is not a valid employee, must be a Employee Class Object")
-    
-    def createReservation(self, guestId, hostingNum, checkIn, checkOut):
-        guest = next((g for g in self.__guests if g.id == guestId), None)
-        hosting = next((h for h in self.__hostings if h.number == hostingNum), None)
 
-        if guest and hosting:
-            new_reservation = reservation(guest, hosting, checkIn, checkOut)
-            self.__reservations.append(new_reservation)
-        else:
-            raise ValueError("Invalid Guest ID or Hosting Number.")
+
+    def registerReservation(self, newReservation):
+        if isinstance(newReservation, Reservation):
+            self.__reservations.append(newReservation)
+
         
     def findAvailableHostings(self, type, checkIn, checkOut):
         return [h for h in self.__hostings if h.type == type and h.is_available(checkIn, checkOut)]
