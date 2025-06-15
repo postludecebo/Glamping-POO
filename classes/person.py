@@ -43,7 +43,7 @@ class Person:
     def identification(self, newIdentification):
         self.__identification = newIdentification
     
-    def show_info(self):
+    def showInfo(self):
         return f"INFORMATION \n Name: {self.name} \n Phone: {self.phone} \n Email: {self.email} \n Identification: {self.identification}"
     
     def confirmCreation(self):

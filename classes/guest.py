@@ -42,5 +42,5 @@ class Guest(Person):
         return f"Age is: {age}"
 
     def show_info(self):
-        return f"{super().show_info()} \n Birth Date: {self.birthDate} \n Origin Country: {self.originCountry} \n Food Preferences: {self.foodPreferences}"
+        return f"{super().showInfo()} \n Birth Date: {self.birthDate} \n Origin Country: {self.originCountry} \n Food Preferences: {self.foodPreferences}"
 

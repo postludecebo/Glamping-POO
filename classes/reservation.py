@@ -104,7 +104,7 @@ class Reservation:
         self.__totalPrice = (self.estimateNights() * hostingPrice) + additionalService
         return f"Total price for reservation: {self.__totalPrice:.0f}"
     
-    def show_info(self):
+    def showInfo(self):
         return (f"Reservation Code: {self.idReservation} \n Guest: {self.guest.name} \n"
                 f"Hosting: {self.hosting.type} - {self.hosting.number if hasattr(self.hosting, 'number') else 'N/A'}\n"
                 f"Check-in: {self.dateCheckIn}\n Check-out: {self.dateCheckOut}\n"
