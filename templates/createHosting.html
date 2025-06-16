@@ -55,8 +55,8 @@
       
       <div class="form-field">
       <div class="col-md-6">
-        <label for="type" class="form-label">Type</label>
-        <select name="type" id="type" class="form-select" required>
+        <select name="type" id="type" required>
+          <option value="" disabled selected> Select Type</option>
           <option value="shack">Shack</option>
           <option value="dome">Dome</option>
           <option value="luxury">Luxury</option>
@@ -107,16 +107,18 @@
           <label class="form-check-label" for="amenity-air">Air Conditioner</label>
         </div>
       </div>
-
+      
+      <div class="form-field">
       <div class="col-md-6">
-        <label for="season" class="form-label">Season</label>
-        <select name="season" id="season" class="form-select" required>
+        <select name="season" id="season"  required>
+          <option value="" disabled selected> Select Season </option>
           <option value="low">Low</option>
           <option value="mid">Mid</option>
           <option value="high">High</option>
         </select>
       </div>
-
+      </div>
+      
       <div class="col-md-6">
         <label class="form-label d-block">Disponibility</label>
         <div class="form-check form-switch">

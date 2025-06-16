@@ -46,8 +46,9 @@
 
       <div class="form-field">
         <div class="col-md-6">
-          <label>Guest</label>
-          <select name="guestID" class="form-select" required>
+        
+          <select name="guestID" required>
+              <option value="" disabled selected> Select  Guest</option>
             {% for guest in guests %}
               <option value="{{ guest.identification }}">{{ guest.name }}</option>
             {% endfor %}
@@ -57,8 +58,9 @@
 
       <div class="form-field">
         <div class="col-md-6">
-          <label>Hosting</label>
-          <select name="hostingPhone" class="form-select" required>
+          
+          <select name="hostingPhone" required>
+              <option value="" disabled selected> Select Hosting</option>
             {% for hosting in hostings %}
               <option value="{{ hosting.phone }}">{{ hosting.phone }} - {{ hosting.type }}</option>
             {% endfor %}
@@ -102,8 +104,9 @@
 
       <div class="form-field">
           <div class="col-md-6">
-            <label>State</label>
-            <select name="state" class="form-select" required>
+           
+            <select name="state" required>
+              <option value="" disabled selected> Select State</option>
               <option value="confirmed">Confirmed</option>
               <option value="in progress">In Progress</option>
               <option value="finished">Finished</option>
